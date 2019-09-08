@@ -30,6 +30,8 @@ use serde::Serialize;
 use error_chain::bail;
 use log::debug;
 
+// For test
+use log::info;
 use futures::sync::mpsc;
 use parking_lot::{Mutex, RwLock};
 use sr_primitives::{
@@ -203,6 +205,7 @@ impl<B: ChainApi> Pool<B> {
 
 	/// Imports one unverified extrinsic to the pool
 	pub fn submit_one(&self, at: &BlockId<B::Block>, xt: ExtrinsicFor<B>) -> Result<ExHash<B>, B::Error> {
+		info!("submit_one Extrinsic #{} in {}", at, 1);
 		Ok(self.submit_at(at, ::std::iter::once(xt))?.pop().expect("One extrinsic passed; one result returned; qed")?)
 	}
 
