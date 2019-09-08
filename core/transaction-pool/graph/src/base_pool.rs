@@ -101,6 +101,8 @@ pub struct Transaction<Hash, Extrinsic> {
 	pub requires: Vec<Tag>,
 	/// Tags that this transaction provides.
 	pub provides: Vec<Tag>,
+	/// Tag that to used by filter trx when build block.
+	pub filter_tag: u64
 }
 
 impl<Hash, Extrinsic> fmt::Debug for Transaction<Hash, Extrinsic> where
@@ -121,6 +123,7 @@ impl<Hash, Extrinsic> fmt::Debug for Transaction<Hash, Extrinsic> where
 
 		write!(fmt, "Transaction {{ ")?;
 		write!(fmt, "hash: {:?}, ", &self.hash)?;
+		write!(fmt, "filter: {}, ", &self.filter_tag)?;
 		write!(fmt, "priority: {:?}, ", &self.priority)?;
 		write!(fmt, "valid_till: {:?}, ", &self.valid_till)?;
 		write!(fmt, "bytes: {:?}, ", &self.bytes)?;

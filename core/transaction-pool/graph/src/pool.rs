@@ -141,6 +141,7 @@ impl<B: ChainApi> Pool<B> {
 							requires,
 							provides,
 							valid_till: block_number.as_().saturating_add(longevity),
+							filter_tag: 1 // TODO: calc tag to filter by addresses
 						})
 					},
 					TransactionValidity::Invalid(e) => {
