@@ -231,6 +231,11 @@ impl<Block, C, A> Proposer<Block, C, A>	where
 						break;
 					}
 
+					if pending.filter_tag != filter_tag {
+						warn!("Wait push pending transaction by filter!");
+						continue;
+					}
+
 					trace!("[{:?}] Pushing to the block.", pending.hash);
 					match block_builder.push_extrinsic(pending.data.clone()) {
 						Ok(()) => {
