@@ -30,7 +30,7 @@ use codec::Decode;
 use consensus_common::{self, evaluation};
 use primitives::{H256, Blake2Hasher, ExecutionContext};
 use runtime_primitives::traits::{
-	Block as BlockT, Hash as HashT, Header as HeaderT, ProvideRuntimeApi, AuthorityIdFor
+	Block as BlockT, Hash as HashT, Header as HeaderT, ProvideRuntimeApi, AuthorityIdFor, As
 };
 use runtime_primitives::generic::BlockId;
 use runtime_primitives::ApplyError;
@@ -218,7 +218,11 @@ impl<Block, C, A> Proposer<Block, C, A>	where
 				let mut is_first = true;
 				let mut skipped = 0;
 				let mut unqueue_invalid = Vec::new();
+
+				// get trx from pool
 				let pending_iterator = self.transaction_pool.ready();
+				let filter_tag : u64 = self.parent_number.as_() % 2;
+				info!("Get transactions to #{}, should use {} be filter tag.", self.parent_number, filter_tag);
 
 				debug!("Attempting to push transactions from the pool.");
 				for pending in pending_iterator {
