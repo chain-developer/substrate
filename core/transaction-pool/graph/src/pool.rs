@@ -133,7 +133,8 @@ impl<B: ChainApi> Pool<B> {
 				
 				match self.api.validate_transaction(at, xt.clone())? {
 					TransactionValidity::Valid { priority, requires, provides, longevity, filter_tag } => {
-						Ok(base::Transaction {
+						info!("transaction filter_tag {}", filter_tag);
+						return Ok(base::Transaction {
 							data: xt,
 							bytes,
 							hash,
@@ -142,7 +143,7 @@ impl<B: ChainApi> Pool<B> {
 							provides,
 							valid_till: block_number.as_().saturating_add(longevity),
 							filter_tag: filter_tag
-						})
+						});
 					},
 					TransactionValidity::Invalid(e) => {
 						bail!(error::Error::from(error::ErrorKind::InvalidTransaction(e)))
