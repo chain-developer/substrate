@@ -130,9 +130,9 @@ impl<B: ChainApi> Pool<B> {
 				if self.rotator.is_banned(&hash) {
 					bail!(error::Error::from(error::ErrorKind::TemporarilyBanned))
 				}
-
+				
 				match self.api.validate_transaction(at, xt.clone())? {
-					TransactionValidity::Valid { priority, requires, provides, longevity } => {
+					TransactionValidity::Valid { priority, requires, provides, longevity, filter_tag } => {
 						Ok(base::Transaction {
 							data: xt,
 							bytes,
@@ -141,7 +141,7 @@ impl<B: ChainApi> Pool<B> {
 							requires,
 							provides,
 							valid_till: block_number.as_().saturating_add(longevity),
-							filter_tag: 1 // TODO: calc tag to filter by addresses
+							filter_tag: filter_tag
 						})
 					},
 					TransactionValidity::Invalid(e) => {
@@ -497,6 +497,7 @@ mod tests {
 					requires: if nonce > block_number { vec![vec![nonce as u8 - 1]] } else { vec![] },
 					provides: vec![vec![nonce as u8]],
 					longevity: 3,
+					filter_tag: 1,
 				})
 			}
 		}

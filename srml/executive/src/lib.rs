@@ -292,6 +292,7 @@ impl<
 				requires: deps,
 				provides: vec![(sender, *index).encode()],
 				longevity: TransactionLongevity::max_value(),
+				filter_tag: 1
 			}
 		} else {
 			return TransactionValidity::Invalid(if xt.sender().is_none() {

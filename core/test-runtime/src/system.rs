@@ -180,6 +180,7 @@ pub fn validate_transaction(utx: Extrinsic) -> TransactionValidity {
 		requires,
 		provides,
 		longevity: 64,
+		filter_tag: 1,
 	}
 }
 

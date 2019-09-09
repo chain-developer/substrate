@@ -59,6 +59,10 @@ pub enum TransactionValidity {
 		/// Longevity describes minimum number of blocks the validity is correct.
 		/// After this period transaction should be removed from the pool or revalidated.
 		longevity: TransactionLongevity,
+		/// Filter tag
+		/// 
+		/// To let block builder to choose if put trx into block
+		filter_tag: u64
 	},
 	/// Transaction validity can't be determined.
 	Unknown(i8),
