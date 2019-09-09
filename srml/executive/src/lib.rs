@@ -243,6 +243,14 @@ impl<
 		assert!(header.state_root() == &storage_root, "Storage root must match that calculated.");
 	}
 
+	fn make_filter_tag(sender: &System::AccountId) -> u64 {
+		if let Some(p) = System::Hashing::hash(sender.as_ref()).as_ref().last() {
+			(*p % 2) as u64
+		}else{
+			0
+		}
+	}
+
 	/// Check a given transaction for validity. This doesn't execute any
 	/// side-effects; it merely checks whether the transaction would panic if it were included or not.
 	///
@@ -292,7 +300,7 @@ impl<
 				requires: deps,
 				provides: vec![(sender, *index).encode()],
 				longevity: TransactionLongevity::max_value(),
-				filter_tag: 1
+				filter_tag: Self::make_filter_tag(sender)
 			}
 		} else {
 			return TransactionValidity::Invalid(if xt.sender().is_none() {

@@ -164,7 +164,7 @@ pub trait Trait: 'static + Eq + Clone {
 		Parameter + Member + MaybeSerializeDebugButNotDeserialize + Default + traits::Digest<Hash = Self::Hash>;
 
 	/// The user account identifier type for the runtime.
-	type AccountId: Parameter + Member + MaybeSerializeDebug + MaybeDisplay + Ord + Default;
+	type AccountId: Parameter + Member + MaybeSerializeDebug + MaybeDisplay + Ord + Default + AsRef<[u8]>;
 
 	/// Converting trait to take a source type and convert to `AccountId`.
 	///
